@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非遗皮影艺术 - 中国传统文化的瑰宝</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f4e9;
+            color: #4a3a2a;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://p3-search.byteimg.com/obj/labis/19649f7aad6d0ecaf143a0fddc21aa14');
+            background-size: cover;
+            background-position: center;
+        }
+        .shadow-custom {
+            box-shadow: 0 10px 25px -5px rgba(138, 99, 51, 0.3);
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -20px;
+            width: 2px;
+            height: 20px;
+            background-color: #d4a373;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .speech-btn {
+            transition: all 0.3s ease;
+        }
+        .speech-btn:hover {
+            transform: scale(1.1);
+        }
+        /* 新增图片等大样式 */
+        .production-img-container {
+            width: 100%;
+            height: 300px; /* 固定高度 */
+            overflow: hidden;
+            position: relative;
+        }
+        .production-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保持比例并填充容器 */
+            transition: transform 0.3s ease;
+        }
+        .production-img:hover {
+            transform: scale(1.05);
+        }
+        .production-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        /* 语音图标样式 */
+        .speech-icon {
+            cursor: pointer;
+            opacity: 0.7;
+            margin-left: 8px;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .speech-icon.playing {
+            opacity: 1;
+            color: #0066cc;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .speech-icon:hover {
+            opacity: 1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* 段落播放时高亮 */
+        .p-playing {
+            background-color: #fff9c4;
+            transition: background-color 0.3s ease;
+        }
+		 :root {
+		            --primary-color: #8B4513;
+		            --secondary-color: #D4A017;
+		            --dark-color: #2C2C2C;
+		            --light-color: #F8F4E9;
+		        }
+		        
+		        body {
+		            font-family: 'Noto Sans SC', sans-serif;
+		            background-color: var(--light-color);
+		            color: var(--dark-color);
+		            transition: all 0.3s ease;
+		        }
+		        
+		        .hero-section {
+		            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://p3-search.byteimg.com/obj/labis/19649f7aad6d0ecaf143a0fddc21aa14');
+		            background-size: cover;
+		            background-position: center;
+		        }
+		        
+		        .shadow-custom {
+		            box-shadow: 0 10px 25px -5px rgba(139, 69, 19, 0.3);
+		        }
+		        
+		        .timeline-item:not(:last-child)::after {
+		            content: '';
+		            position: absolute;
+		            left: 50%;
+		            bottom: -20px;
+		            width: 2px;
+		            height: 20px;
+		            background-color: var(--primary-color);
+		        }
+		        
+		        .video-container {
+		            position: relative;
+		            padding-bottom: 56.25%;
+		            height: 0;
+		            overflow: hidden;
+		        }
+		        
+		        .video-container iframe {
+		            position: absolute;
+		            top: 0;
+		            left: 0;
+		            width: 100%;
+		            height: 100%;
+		        }
+		        
+		        .speech-btn {
+		            transition: all 0.3s ease;
+		        }
+		        
+		        .speech-btn:hover {
+		            transform: scale(1.1);
+		        }
+		        
+		        /* 修改后的等高布局样式 */
+		        .style-item {
+		            display: flex;
+		            flex-direction: row;
+		            gap: 16px;
+		            align-items: stretch;
+		        }
+		        
+		        .style-content {
+		            flex: 1;
+		            min-width: 0;
+		            display: flex;
+		            flex-direction: column;
+		            justify-content: center;
+		        }
+		        
+		        .style-img-container {
+		            flex: 0 0 180px;
+		            display: flex;
+		            align-items: center;
+		            justify-content: center;
+		            height: auto;
+		            cursor: pointer;
+		        }
+		        
+		        .style-img {
+		            width: 100%;
+		            height: 100%;
+		            object-fit: cover;
+		            border-radius: 12px;
+		            box-shadow: 0 6px 16px -8px rgba(139, 69, 19, 0.5);
+		            transition: transform 0.3s ease;
+		        }
+		        
+		        .style-img:hover {
+		            transform: scale(1.05);
+		        }
+		        
+		        /* 语音图标样式 */
+		        .speech-icon {
+		            cursor: pointer;
+		            opacity: 0.7;
+		            margin-left: 8px;
+		            color: var(--dark-color);
+		            transition: all 0.3s;
+		        }
+		        
+		        .speech-icon.playing {
+		            opacity: 1;
+		            color: var(--primary-color);
+		            animation: pulse 1.5s infinite;
+		        }
+		        
+		        .speech-icon:hover {
+		            opacity: 1;
+		        }
+		        
+		        @keyframes pulse {
+		            0% { transform: scale(1); }
+		            50% { transform: scale(1.2); }
+		            100% { transform: scale(1); }
+		        }
+		        
+		        /* 段落播放时高亮 */
+		        .p-playing {
+		            background-color: rgba(212, 160, 23, 0.2);
+		            transition: background-color 0.3s ease;
+		        }
+		
+		        /* 图片查看模态框样式 */
+		        .image-modal {
+		            display: none;
+		            position: fixed;
+		            z-index: 1000;
+		            left: 0;
+		            top: 0;
+		            width: 100%;
+		            height: 100%;
+		            background-color: rgba(0, 0, 0, 0.8);
+		            overflow: auto;
+		        }
+		        
+		        .modal-content {
+		            margin: auto;
+		            display: block;
+		            max-width: 90%;
+		            max-height: 90%;
+		            position: absolute;
+		            top: 50%;
+		            left: 50%;
+		            transform: translate(-50%, -50%);
+		            transition: all 0.3s ease;
+		        }
+		        
+		        .close-btn {
+		            position: absolute;
+		            top: 20px;
+		            right: 30px;
+		            color: white;
+		            font-size: 35px;
+		            font-weight: bold;
+		            cursor: pointer;
+		            z-index: 1001;
+		        }
+		        
+		        .caption {
+		            margin: auto;
+		            display: block;
+		            width: 80%;
+		            text-align: center;
+		            color: #ccc;
+		            padding: 10px 0;
+		            position: absolute;
+		            bottom: 20px;
+		            left: 10%;
+		            z-index: 1001;
+		        }
+		        
+		        /* 导航箭头 */
+		        .nav-arrow {
+		            position: absolute;
+		            top: 50%;
+		            transform: translateY(-50%);
+		            color: white;
+		            font-size: 50px;
+		            cursor: pointer;
+		            z-index: 1001;
+		            opacity: 0.7;
+		            transition: opacity 0.3s;
+		        }
+		        
+		        .nav-arrow:hover {
+		            opacity: 1;
+		        }
+		        
+		        .prev {
+		            left: 30px;
+		        }
+		        
+		        .next {
+		            right: 30px;
+		        }
+		        
+		        /* 游戏区域样式 */
+		        .game-container {
+		            background-color: white;
+		            border-radius: 12px;
+		            padding: 20px;
+		            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+		            margin: 20px auto;
+		            max-width: 800px;
+		        }
+		        
+		        .game-step {
+		            display: none;
+		            animation: fadeIn 0.5s ease;
+		        }
+		        
+		        .game-step.active {
+		            display: block;
+		        }
+		        
+		        .game-option {
+		            display: inline-block;
+		            margin: 10px;
+		            padding: 10px 20px;
+		            background-color: var(--primary-color);
+		            color: white;
+		            border-radius: 8px;
+		            cursor: pointer;
+		            transition: all 0.3s ease;
+		        }
+		        
+		        .game-option:hover {
+		            background-color: #A0522D;
+		            transform: translateY(-3px);
+		        }
+		        
+		        .game-image {
+		            width: 100%;
+		            max-width: 300px;
+		            height: auto;
+		            border-radius: 8px;
+		            margin: 10px 0;
+		        }
+		        
+		        .game-feedback {
+		            margin-top: 15px;
+		            padding: 10px;
+		            border-radius: 8px;
+		            display: none;
+		        }
+		        
+		        .game-feedback.correct {
+		            background-color: rgba(0, 128, 0, 0.2);
+		            color: green;
+		        }
+		        
+		        .game-feedback.incorrect {
+		            background-color: rgba(255, 0, 0, 0.2);
+		            color: red;
+		        }
+		        
+		        @keyframes fadeIn {
+		            from { opacity: 0; }
+		            to { opacity: 1; }
+		        }
+		        
+		        .dark-theme body {
+		            background-color: var(--light-color);
+		            color: var(--dark-color);
+		        }
+		        
+		        .dark-theme .bg-white {
+		            background-color: #3D3D3D !important;
+		            color: var(--dark-color);
+		        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-amber-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-theater-masks text-2xl mr-2"></i>
+                <span class="text-xl font-bold">非遗皮影艺术</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="概述.html" class="nav-link">概述</a>
+                <a href="历史渊源.html" class="nav-link">历史渊源</a>
+                <a href="制作工艺.html" class="nav-link">制作工艺</a>
+                <a href="艺术流派.html" class="nav-link">艺术流派</a>
+                <a href="传承发展.html" class="nav-link">传承发展</a>
+                <a href="视频欣赏.html" class="nav-link">视频欣赏</a>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+			<button id="theme-toggle">切换主题</button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobileMenu" class="hidden md:hidden bg-amber-800 px-4 py-2">
+            <a href="概述.html" class="block py-2 hover:text-amber-200 transition nav-link">概述</a>
+            <a href="历史渊源.html" class="block py-2 hover:text-amber-200 transition nav-link">历史渊源</a>
+            <a href="制作工艺.html" class="block py-2 hover:text-amber-200 transition nav-link">制作工艺</a>
+            <a href="艺术流派.html" class="block py-2 hover:text-amber-200 transition nav-link">艺术流派</a>
+            <a href="传承发展.html" class="block py-2 hover:text-amber-200 transition nav-link">传承发展</a>
+            <a href="视频欣赏.html" class="block py-2 hover:text-amber-200 transition nav-link">视频欣赏</a>
+        </div>
+    </nav>
+
+    <!-- 制作工艺 -->
+    <section id="production" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center text-amber-900">
+                <i class="fas fa-hammer mr-2"></i>皮影制作
+            </h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- 使用flex布局实现图片和文字左右排列 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/制作工具.png" alt="皮影制作工具和材料" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">制作工具和制作材料</h3>
+                            <i class="fas fa-volume-up speech-icon" id="toolsSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="toolsContent">
+                            <p>皮影戏虽因地域差异形成不同流派，但影人制作工艺却遵循相似体系。传统工艺需历经选皮、制皮、画稿等八道核心工序，手工雕刻超3000刀，堪称指尖上的微雕艺术。</p>
+                            <p class="mt-4">材料选择极为考究：北方多选用驴皮（质地坚韧、透明度高），南方偏好牛皮（皮质厚实、适合复杂雕刻）。工具包括斜口刀、平口刀、圆刀等十余种特制刀具，辅以蜡板、油灯等传统器具，每一件工具都承载着匠人的毕生经验。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-semibold mb-4 text-amber-800">制作步骤</h3>
+                
+                <!-- 选皮步骤 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/选皮.png" alt="选皮" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 production-content">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">1. 选皮</h3>
+                            <i class="fas fa-volume-up speech-icon" id="selectSkinSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="selectSkinContent">
+                            <p>选皮是制作皮影的根基，老艺人常说"皮不好，一切都白搞"。优质驴皮需选用4-5岁公驴的臀背部皮肤，要求皮质厚薄均匀、无疤痕、无虫蛀。</p>
+                            <p class="mt-4">鉴别皮料时，匠人会通过"三看"法则：看色泽（呈半透明琥珀色为佳）、看纹理（纤维细腻均匀）、听声音（轻弹皮料发出清脆响声）。这种传统经验判断，现代仪器至今无法完全替代。</p>
+                            <p class="mt-4">不同季节采集的皮料也有讲究：春季皮料柔韧性最佳，秋季皮料透明度最高。老匠人往往会在特定季节储备全年所需的原材料。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 制皮步骤 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/制皮.png" alt="制皮" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 production-content">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">2. 制皮</h3>
+                            <i class="fas fa-volume-up speech-icon" id="makeSkinSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="makeSkinContent">
+                            <p>制皮过程如同给皮革"脱胎换骨"，需历经浸泡、刮皮、打磨等多道工序。传统方法是将生皮浸泡在石灰水中3-5天，待毛根松动后手工去毛，再用特制刮刀反复刮削至厚度仅0.1-0.2mm。</p>
+                            <p class="mt-4">现代工艺创新：部分工作室采用酶制剂替代传统石灰水，既环保又能更好保留皮质纤维结构，但传统派仍坚持古法，认为只有石灰水处理的皮料才有"灵魂"。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 画稿步骤 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/画稿.png" alt="画稿" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 production-content">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">3. 画稿</h3>
+                            <i class="fas fa-volume-up speech-icon" id="drawDraftSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="drawDraftContent">
+                            <p>画稿是将传统纹样转化为皮影造型的关键一步，匠人需掌握"五形四骨"的造型法则（五形：头、身、手、腿、脚；四骨：肩、肘、膝、髋关节）。</p>
+                            <p class="mt-4">传统画稿采用"样谱"传承方式，这些代代相传的粉本上，记录着生、旦、净、末、丑的不同造型规范。</p>
+                            <p class="mt-4">现代创新：部分年轻艺人开始使用投影仪辅助画稿，但老一辈坚持手绘，认为只有亲手描绘才能把握人物神韵。画稿时还需考虑后续雕刻需要，线条转折处要预留刀路空间。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 雕刻步骤 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/雕刻.png" alt="雕刻" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 production-content">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">4. 雕刻</h3>
+                            <i class="fas fa-volume-up speech-icon" id="carveSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="carveContent">
+                            <p>雕刻是皮影制作的核心技艺，讲究"刀刀见功底"。匠人需掌握推刀、挑刀、琢刀等十余种刀法，在不足1mm厚的皮料上雕刻出精细纹样。</p>
+                            <p class="mt-4">传统技法中，"万字纹"用于表现文官服饰，"鱼鳞纹"刻画武将铠甲，"梅花纹"装饰旦角头饰。</p>
+                            <p class="mt-4">刀法传承：学徒需先练习三年基本功，从直线、曲线到复杂纹样，通过刻废数百张皮料才能掌握运刀力度。现代虽有激光雕刻技术，但手工雕刻的灵动感仍无法替代。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 敷色步骤 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/敷色.png" alt="敷色" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 production-content">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">5. 敷色</h3>
+                            <i class="fas fa-volume-up speech-icon" id="colorSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="colorContent">
+                            <p>敷色采用传统矿物颜料，以"红、黄、蓝、绿、黑"五色为基础，通过套色、晕染形成丰富层次。独特的"酒浸上色法"是将颜料溶于米酒，加入鱼胶熬制，趁热敷色可使色彩经久不褪。</p>
+                            <p class="mt-4">色彩运用遵循"红忠紫孝，黑正粉老"的象征法则：关羽脸涂红色象征忠义，赵高脸施白色寓意奸诈。</p>
+                            <p class="mt-4">现代改良：部分工作室使用丙烯颜料替代传统矿物颜料，色彩更鲜艳且不易褪色。敷色时还需注意留白技巧，保留皮料天然纹理的美感。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 熨烫平整步骤 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/熨烫平整.png" alt="熨烫平整" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 production-content">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">6. 熨烫平整</h3>
+                            <i class="fas fa-volume-up speech-icon" id="ironSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="ironContent">
+                            <p>熨烫是让皮影"定型"的关键工序，现代工艺改用恒温熨斗，但温度控制仍需凭手感：最佳温度在60-70℃，过高会烫焦皮料，过低则无法定型。</p>
+                            <p class="mt-4">熨烫时需特别注意弧度处理：人物衣褶、动物毛发的曲线都要通过不同压力和角度来实现。经验丰富的匠人能通过听"滋滋"声判断温度，这种"以声辨温"的技巧，是机器生产无法复制的。</p>
+                            <p class="mt-4">创新方法：部分工作室使用真空覆膜技术替代传统熨烫，能更好保持皮影形状，但传统艺人认为这样处理的作品缺少"烟火气"。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 组装步骤 -->
+                <div class="flex flex-col md:flex-row items-start gap-8 mb-12">
+                    <div class="w-full md:w-1/3">
+                        <div class="production-img-container rounded-lg shadow-lg">
+                            <img src="images/组装.png" alt="组装" class="production-img">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 production-content">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">7. 组装</h3>
+                            <i class="fas fa-volume-up speech-icon" id="assembleSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom h-full" id="assembleContent">
+                            <p>组装赋予皮影生命，一个完整影人通常由11个活动部件组成。</p>
+                            <p class="mt-4">传统用牛皮枢钉连接部件，现代多用尼龙线缝制，既保持灵活性又增强耐用性。最后安装操纵杆（主杆+手杆），匠人会根据角色身份调整杆长：武将杆短便于激烈动作，文生杆长体现儒雅姿态。</p>
+                            <p class="mt-4">创新实践：现代剧场表演用皮影会加装微型轴承，使动作更流畅；而传统表演仍坚持手工缝制，认为这样才有"人偶合一"的操控感。组装完成后，还需进行动作调试，确保每个关节活动自如。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+ <!-- 制作工艺游戏 -->
+    <section id="shadow-puppet-game" class="py-16 bg-[var(--light-color)]">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center text-[var(--primary-color)]">
+                <i class="fas fa-gamepad mr-2"></i>皮影制作工艺游戏
+            </h2>
+            
+            <div class="game-container">
+                <div id="game-intro" class="game-step active">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">欢迎来到皮影制作工艺游戏</h3>
+                    <p>在这个游戏中，你将学习皮影戏的制作工艺与流程。通过互动的方式，了解从选皮到表演的完整过程。</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/d8cf5f6d55bb458f3d424ff5897fa8a5" alt="皮影戏制作" class="game-image">
+                    <button class="game-option" onclick="startGame()">开始游戏</button>
+                </div>
+                
+                <div id="game-step1" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">第一步：选皮</h3>
+                    <p>皮影制作的第一步是选择合适的皮革。传统皮影通常使用什么动物的皮？</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/4c7ba6e5e6c8f3ac067f84b8256a71a3" alt="皮影选皮" class="game-image">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="game-option" onclick="checkAnswer(1, 'a')">牛皮</div>
+                        <div class="game-option" onclick="checkAnswer(1, 'b')">羊皮</div>
+                        <div class="game-option" onclick="checkAnswer(1, 'c')">驴皮</div>
+                        <div class="game-option" onclick="checkAnswer(1, 'd')">猪皮</div>
+                    </div>
+                    <div id="feedback1" class="game-feedback"></div>
+                </div>
+                
+                <div id="game-step2" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">第二步：制皮</h3>
+                    <p>将选好的皮革进行处理，使其变得透明且坚韧。这个过程通常需要多长时间？</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/2252eeffca7d43c138fab22ff2302ffc" alt="皮影制皮" class="game-image">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="game-option" onclick="checkAnswer(2, 'a')">1-2天</div>
+                        <div class="game-option" onclick="checkAnswer(2, 'b')">3-5天</div>
+                        <div class="game-option" onclick="checkAnswer(2, 'c')">1-2周</div>
+                        <div class="game-option" onclick="checkAnswer(2, 'd')">1个月</div>
+                    </div>
+                    <div id="feedback2" class="game-feedback"></div>
+                </div>
+                
+                <div id="game-step3" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">第三步：画稿</h3>
+                    <p>在制作皮影前，需要先在纸上画出设计稿。以下哪种风格最常出现在传统皮影戏中？</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/10fc9806f9cd2a78edff5038136fd5eb" alt="皮影画稿" class="game-image">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="game-option" onclick="checkAnswer(3, 'a')">写实风格</div>
+                        <div class="game-option" onclick="checkAnswer(3, 'b')">抽象风格</div>
+                        <div class="game-option" onclick="checkAnswer(3, 'c')">戏曲脸谱风格</div>
+                        <div class="game-option" onclick="checkAnswer(3, 'd')">卡通风格</div>
+                    </div>
+                    <div id="feedback3" class="game-feedback"></div>
+                </div>
+                
+                <div id="game-step4" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">第四步：雕刻</h3>
+                    <p>皮影雕刻需要用到多种刀具。以下哪种不是传统皮影雕刻工具？</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/19649f7aad6d0ecaf143a0fddc21aa14" alt="皮影雕刻" class="game-image">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="game-option" onclick="checkAnswer(4, 'a')">平刀</div>
+                        <div class="game-option" onclick="checkAnswer(4, 'b')">圆刀</div>
+                        <div class="game-option" onclick="checkAnswer(4, 'c')">三角刀</div>
+                        <div class="game-option" onclick="checkAnswer(4, 'd')">电钻</div>
+                    </div>
+                    <div id="feedback4" class="game-feedback"></div>
+                </div>
+                
+                <div id="game-step5" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">第五步：敷彩</h3>
+                    <p>皮影上色使用的颜料有什么特点？</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/d8cf5f6d55bb458f3d424ff5897fa8a5" alt="皮影敷彩" class="game-image">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="game-option" onclick="checkAnswer(5, 'a')">水溶性</div>
+                        <div class="game-option" onclick="checkAnswer(5, 'b')">油性</div>
+                        <div class="game-option" onclick="checkAnswer(5, 'c')">透明</div>
+                        <div class="game-option" onclick="checkAnswer(5, 'd')">荧光</div>
+                    </div>
+                    <div id="feedback5" class="game-feedback"></div>
+                </div>
+                
+                <div id="game-step6" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">第六步：发汗熨平</h3>
+                    <p>发汗熨平的目的是什么？</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/4c7ba6e5e6c8f3ac067f84b8256a71a3" alt="皮影发汗熨平" class="game-image">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="game-option" onclick="checkAnswer(6, 'a')">使颜料渗入皮革</div>
+                        <div class="game-option" onclick="checkAnswer(6, 'b')">让皮革更柔软</div>
+                        <div class="game-option" onclick="checkAnswer(6, 'c')">增加皮革厚度</div>
+                        <div class="game-option" onclick="checkAnswer(6, 'd')">改变皮革颜色</div>
+                    </div>
+                    <div id="feedback6" class="game-feedback"></div>
+                </div>
+                
+                <div id="game-step7" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">第七步：缀结合成</h3>
+                    <p>皮影各部分如何连接在一起？</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/2252eeffca7d43c138fab22ff2302ffc" alt="皮影缀结合成" class="game-image">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="game-option" onclick="checkAnswer(7, 'a')">胶水粘合</div>
+                        <div class="game-option" onclick="checkAnswer(7, 'b')">线缝连接</div>
+                        <div class="game-option" onclick="checkAnswer(7, 'c')">细绳或铁丝</div>
+                        <div class="game-option" onclick="checkAnswer(7, 'd')">钉子固定</div>
+                    </div>
+                    <div id="feedback7" class="game-feedback"></div>
+                </div>
+                
+                <div id="game-complete" class="game-step">
+                    <h3 class="text-2xl font-semibold mb-4 text-[var(--primary-color)]">恭喜完成游戏！</h3>
+                    <p>你已经了解了皮影制作的基本工艺流程。皮影戏作为中国非物质文化遗产，需要我们共同保护和传承。</p>
+                    <img src="https://p3-search.byteimg.com/obj/labis/10fc9806f9cd2a78edff5038136fd5eb" alt="皮影戏表演" class="game-image">
+                    <p>你的得分: <span id="game-score" class="font-bold">0</span>/7</p>
+                    <button class="game-option" onclick="restartGame()">再玩一次</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-amber-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm">© 2025 非遗皮影艺术保护与传承</p>
+					<video id="backgroundMusic" controls src="music/1.mp3" height="20" width="150" autostart="true" autoplay hidden></video>
+					            </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-weixin text-xl"></i></a>
+                    <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-weibo text-xl"></i></a>
+                    <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-tiktok text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script>
+	// 获取背景音乐元素
+	const backgroundMusic = document.getElementById('backgroundMusic');
+	
+	// 页面加载时恢复播放状态和音量
+	window.addEventListener('load', function() {
+	    const savedTime = localStorage.getItem('musicTime');
+	    const savedVolume = localStorage.getItem('musicVolume');
+	
+	    if (savedTime) {
+	        backgroundMusic.currentTime = parseFloat(savedTime);
+	    }
+	
+	    if (savedVolume) {
+	        backgroundMusic.volume = parseFloat(savedVolume);
+	    }
+	});
+	
+	// 页面卸载时保存播放状态和当前时间
+	window.addEventListener('beforeunload', function() {
+	    localStorage.setItem('musicTime', backgroundMusic.currentTime);
+	    localStorage.setItem('musicVolume', backgroundMusic.volume);
+	});
+	
+	// 音量控制、暂停与开始功能示例
+	const playPauseButton = document.createElement('button');
+	playPauseButton.textContent = '暂停';
+	playPauseButton.addEventListener('click', function() {
+	    if (backgroundMusic.paused) {
+	        backgroundMusic.play();
+	        playPauseButton.textContent = '暂停';
+	    } else {
+	        backgroundMusic.pause();
+	        playPauseButton.textContent = '播放';
+	    }
+	});
+	
+	const volumeControl = document.createElement('input');
+	volumeControl.type = 'range';
+	volumeControl.min = 0;
+	volumeControl.max = 1;
+	volumeControl.step = 0.1;
+	volumeControl.value = backgroundMusic.volume;
+	volumeControl.addEventListener('input', function() {
+	    backgroundMusic.volume = parseFloat(this.value);
+	});
+	
+	// 将控制按钮添加到页面
+	const footer = document.querySelector('footer');
+	footer.appendChild(playPauseButton);
+	footer.appendChild(volumeControl);
+</script>
+        
+    <script>
+        // 语音播报管理器
+        const SpeechManager = {
+            synth: window.speechSynthesis,
+            currentSection: null,
+            isPaused: false,
+            speechSections: {},
+            
+            init: function() {
+                // 初始化所有语音部分
+                this.speechSections = {
+                    tools: {
+                        icon: document.getElementById('toolsSpeechIcon'),
+                        content: document.getElementById('toolsContent'),
+                        position: 0,
+                        utterance: null
+                    },
+                    selectSkin: {
+                        icon: document.getElementById('selectSkinSpeechIcon'),
+                        content: document.getElementById('selectSkinContent'),
+                        position: 0,
+                        utterance: null
+                    },
+                    makeSkin: {
+                        icon: document.getElementById('makeSkinSpeechIcon'),
+                        content: document.getElementById('makeSkinContent'),
+                        position: 0,
+                        utterance: null
+                    },
+                    drawDraft: {
+                        icon: document.getElementById('drawDraftSpeechIcon'),
+                        content: document.getElementById('drawDraftContent'),
+                        position: 0,
+                        utterance: null
+                    },
+                    carve: {
+                        icon: document.getElementById('carveSpeechIcon'),
+                        content: document.getElementById('carveContent'),
+                        position: 0,
+                        utterance: null
+                    },
+                    color: {
+                        icon: document.getElementById('colorSpeechIcon'),
+                        content: document.getElementById('colorContent'),
+                        position: 0,
+                        utterance: null
+                    },
+                    iron: {
+                        icon: document.getElementById('ironSpeechIcon'),
+                        content: document.getElementById('ironContent'),
+                        position: 0,
+                        utterance: null
+                    },
+                    assemble: {
+                        icon: document.getElementById('assembleSpeechIcon'),
+                        content: document.getElementById('assembleContent'),
+                        position: 0,
+                        utterance: null
+                    }
+                };
+
+                // 检查浏览器支持
+                if (!('speechSynthesis' in window)) {
+                    Object.values(this.speechSections).forEach(section => {
+                        if (section.icon) section.icon.style.display = 'none';
+                    });
+                    return;
+                }
+
+                // 为每个语音图标添加点击事件
+                Object.keys(this.speechSections).forEach(key => {
+                    const section = this.speechSections[key];
+                    if (section.icon && section.content) {
+                        section.icon.addEventListener('click', () => this.handleSpeechIconClick(key));
+                    }
+                });
+
+                // 监听页面离开事件
+                window.addEventListener('beforeunload', () => this.stopCurrentSpeech());
+                
+                // 监听导航链接点击事件
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => this.stopCurrentSpeech());
+                });
+            },
+            
+            handleSpeechIconClick: function(key) {
+                // 如果点击的是当前正在播放的部分
+                if (this.currentSection === key) {
+                    if (this.synth.speaking && !this.isPaused) {
+                        this.pauseSpeech();
+                    } else if (this.isPaused) {
+                        this.resumeSpeech();
+                    } else {
+                        this.playSpeech(key);
+                    }
+                } else {
+                    // 停止当前播放并开始新的部分
+                    this.stopCurrentSpeech();
+                    this.playSpeech(key);
+                }
+            },
+            
+            playSpeech: function(key) {
+                const section = this.speechSections[key];
+                if (!section) return;
+                
+                this.currentSection = key;
+                this.isPaused = false;
+                
+                // 获取要朗读的文本
+                const text = section.content.textContent.substring(section.position);
+                
+                // 创建新的语音实例
+                section.utterance = new SpeechSynthesisUtterance(text);
+                section.utterance.lang = 'zh-CN';
+                section.utterance.rate = 0.9;
+                
+                // 语音开始回调
+                section.utterance.onstart = () => {
+                    section.icon.classList.add('playing');
+                    section.content.classList.add('p-playing');
+                    section.icon.classList.remove('fa-play');
+                    section.icon.classList.add('fa-pause');
+                };
+                
+                // 语音结束回调
+                section.utterance.onend = () => {
+                    section.icon.classList.remove('playing');
+                    section.content.classList.remove('p-playing');
+                    section.position = 0;
+                    section.icon.classList.remove('fa-pause');
+                    section.icon.classList.add('fa-volume-up');
+                    this.currentSection = null;
+                    this.isPaused = false;
+                };
+                
+                // 语音错误回调
+                section.utterance.onerror = (event) => {
+                    console.error('语音播报错误:', event.error);
+                    section.icon.classList.remove('playing');
+                    section.content.classList.remove('p-playing');
+                    section.icon.classList.remove('fa-pause');
+                    section.icon.classList.add('fa-volume-up');
+                    this.currentSection = null;
+                    this.isPaused = false;
+                };
+                
+                // 记录已播报的字符位置
+                section.utterance.onboundary = (event) => {
+                    if (event.name === 'word') {
+                        section.position = event.charIndex + event.charLength;
+                    }
+                };
+                
+                // 开始播报
+                this.synth.speak(section.utterance);
+            },
+            
+            pauseSpeech: function() {
+                if (this.currentSection && this.synth.speaking && !this.isPaused) {
+                    this.synth.pause();
+                    this.isPaused = true;
+                    const section = this.speechSections[this.currentSection];
+                    section.icon.classList.remove('fa-pause');
+                    section.icon.classList.add('fa-play');
+                }
+            },
+            
+            resumeSpeech: function() {
+                if (this.currentSection && this.isPaused) {
+                    this.synth.resume();
+                    this.isPaused = false;
+                    const section = this.speechSections[this.currentSection];
+                    section.icon.classList.remove('fa-play');
+                    section.icon.classList.add('fa-pause');
+                }
+            },
+            
+            stopCurrentSpeech: function() {
+                if (this.currentSection) {
+                    const section = this.speechSections[this.currentSection];
+                    this.synth.cancel();
+                    section.icon.classList.remove('playing');
+                    section.content.classList.remove('p-playing');
+                    section.icon.classList.remove('fa-pause', 'fa-play');
+                    section.icon.classList.add('fa-volume-up');
+                    this.currentSection = null;
+                    this.isPaused = false;
+                }
+            }
+        };
+
+        // 移动端菜单切换
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 初始化语音管理器
+        document.addEventListener('DOMContentLoaded', function() {
+            SpeechManager.init();
+        });
+    </script>
+	<script>
+	    const themeToggle = document.getElementById('theme-toggle');
+	    const body = document.body;
+	
+	    // 检查本地存储中是否有主题设置
+	    const currentTheme = localStorage.getItem('theme');
+	    if (currentTheme) {
+	        body.classList.add(currentTheme);
+	    }
+	
+	    themeToggle.addEventListener('click', () => {
+	        if (body.classList.contains('dark-theme')) {
+	            body.classList.remove('dark-theme');
+	            localStorage.setItem('theme', '');
+	        } else {
+	            body.classList.add('dark-theme');
+	            localStorage.setItem('theme', 'dark-theme');
+	        }
+	    });
+		  // 游戏逻辑
+		        let currentStep = 0;
+		        let score = 0;
+		        const correctAnswers = {
+		            1: 'c', // 驴皮
+		            2: 'b', // 3-5天
+		            3: 'c', // 戏曲脸谱风格
+		            4: 'd', // 电钻
+		            5: 'a', // 水溶性
+		            6: 'a', // 使颜料渗入皮革
+		            7: 'c'  // 细绳或铁丝
+		        };
+		        
+		        function startGame() {
+		            currentStep = 1;
+		            score = 0;
+		            document.getElementById('game-intro').classList.remove('active');
+		            document.getElementById('game-step1').classList.add('active');
+		        }
+		        
+		        function checkAnswer(step, answer) {
+		            const feedback = document.getElementById(`feedback${step}`);
+		            feedback.style.display = 'block';
+		            
+		            if (answer === correctAnswers[step]) {
+		                feedback.textContent = '回答正确！';
+		                feedback.className = 'game-feedback correct';
+		                score++;
+		            } else {
+		                feedback.textContent = '回答错误！';
+		                feedback.className = 'game-feedback incorrect';
+		            }
+		            
+		            // 延迟进入下一步
+		            setTimeout(() => {
+		                document.getElementById(`game-step${step}`).classList.remove('active');
+		                
+		                if (step < 7) {
+		                    document.getElementById(`game-step${step + 1}`).classList.add('active');
+		                } else {
+		                    document.getElementById('game-complete').classList.add('active');
+		                    document.getElementById('game-score').textContent = score;
+		                }
+		            }, 1000);
+		        }
+		        
+		        function restartGame() {
+		            document.getElementById('game-complete').classList.remove('active');
+		            document.getElementById('game-intro').classList.add('active');
+		            
+		            // 重置所有反馈
+		            for (let i = 1; i <= 7; i++) {
+		                document.getElementById(`feedback${i}`).style.display = 'none';
+		                document.getElementById(`feedback${i}`).className = 'game-feedback';
+		            }
+		        }
+	</script>
+</body>
+</html>

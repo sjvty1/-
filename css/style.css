@@ -1,0 +1,230 @@
+﻿﻿﻿﻿/*通用类*/
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	margin: 0 auto;
+	font-size: 14px;
+	background-color: #f8f4e9;
+	color: #333;
+	position: relative;
+	margin: 0 auto;
+}
+img {
+	border: none;
+}
+a {
+	cursor: pointer;
+	color:white;
+	text-decoration: none;
+	outline: none;
+}
+ul {
+	list-style-type: none;
+}
+em {
+	font-style: normal;
+}
+.lt {
+	float: left;
+}
+.rt {
+	float: right;
+}
+div.clear {
+	font: 0px Arial;
+	line-height: 0;
+	height: 0;
+	overflow: hidden;
+	clear: both;
+}
+.clearfix::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+/*wrapin 主体容器宽度*/
+.wrapin {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	margin: 0 auto;
+}
+header{
+	width: 100%;
+	height: 50px;
+	background-color:#804000;
+}
+.nav li {
+	line-height: 50px;
+	float: left;
+	width: 15%;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+}
+.nav li a {
+	color:white;
+}
+.banner {
+	display: block;
+}
+.banner img {
+	width:1000px;
+	
+	
+	display: block;
+}
+.con {
+	padding: 20px;
+	background-color: white;
+	
+}
+.top .text {
+	float: left;
+	width: 60%;
+	line-height: 26px;
+}
+.top .pic {
+	float: right;
+	width: 38%;
+	margin-top: 20px;
+}
+.top .pic img {
+	width: 70%;
+	border-radius: 100px;
+	padding-left: 80px;
+	
+}
+.title {
+	padding: 20px 0;
+}
+.title h2 {
+	color: #6b4c15;
+}
+.tupian ul {
+	margin: 0 -15px;
+}
+.tupian ul li {
+	width: 33.33%;
+	float: left;
+	padding: 15px;
+	box-sizing: border-box;
+}
+.tupian ul li img {
+	width: 100%;
+	height: 230px;
+	object-fit: cover;
+}
+footer {
+	background-color: aliceblue;
+	text-align: center;
+	line-height: 50px;
+}
+.juese li {
+	position: relative;
+	height: 200px;
+}
+.juese li .pic {
+	height: 160px;
+	width: 160px;
+	position: absolute;
+	left: 0;
+	top: 20px;
+	border-radius:160px;
+	overflow:hidden;
+	border:1px solid #333;
+}
+.juese li .pic img {
+	height: 100%;
+	width: 100%;
+	object-fit:cover;
+}
+
+.juese li .text{
+	margin-left:180px;
+	padding-top:30px;
+}
+
+
+.juese li .text h2{ margin-bottom:10px;}
+
+.juese li .text p{ line-height:26px;} 
+
+section{
+    /*轮播图盒子设置宽高*/
+    width: 1000px;
+    height: 400px;
+    /*居中*/
+    margin: 0 auto;
+}
+section>ul{
+    /*设置轮播图图片集盒子的宽高以及相对定位*/
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective:4000px;
+}
+section>ul>li{
+    /*设置单个图片盒子的宽高*/
+    width: 600px;
+    height: 300px;
+    /*设置绝对定位——水平垂直居中于ul*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -300px;
+    /*给盒子设置圆角*/
+    border-radius: 20px;
+    overflow: hidden;
+    /*过渡*/
+    transition: all 0.5s linear;
+    cursor: pointer;
+}
+section>ul>li>img{
+    width: 100%;
+    height: 100%;
+}
+/* 原有样式保持不变 */
+body {
+    background-color: #f8f4e9;
+    color: #4a3a2a;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 修改后的深色主题样式，使用黄棕色 */
+.dark-theme {
+     background-color: #EBD8B2; /* 浅黄棕色背景 */
+        color: #5C4033; /* 深棕色文字 */
+}
+
+.dark-theme nav {
+    background-color: #654321 !important; /* 导航栏使用稍深的黄棕色 */
+}
+
+.dark-theme .bg-white {
+    background-color: #A0522D !important; /* 白色背景区域改为黄棕色 */
+    color: #fff;
+}
+
+.dark-theme .bg-amber-50 {
+    background-color: #CD853F !important; /* 琥珀色背景区域改为黄棕色 */
+    color: #fff;
+}
+
+.dark-theme .text-amber-800,
+.dark-theme .text-amber-900 {
+    color: #FFE4B5 !important; /* 文字颜色改为浅黄色 */
+}
+
+.dark-theme footer {
+    background-color: #654321 !important; /* 页脚使用稍深的黄棕色 */
+    color: #fff;
+}
+
+.dark-theme .shadow-custom {
+    box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.1) !important;
+}

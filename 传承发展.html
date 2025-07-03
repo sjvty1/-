@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非遗皮影艺术 - 中国传统文化的瑰宝</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f4e9;
+            color: #4a3a2a;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://p3-search.byteimg.com/obj/labis/19649f7aad6d0ecaf143a0fddc21aa14');
+            background-size: cover;
+            background-position: center;
+        }
+        .shadow-custom {
+            box-shadow: 0 10px 25px -5px rgba(138, 99, 51, 0.3);
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -20px;
+            width: 2px;
+            height: 20px;
+            background-color: #d4a373;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .speech-btn {
+            transition: all 0.3s ease;
+        }
+        .speech-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 语音图标样式 */
+        .speech-icon {
+            cursor: pointer;
+            opacity: 0.7;
+            margin-left: 8px;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .speech-icon.playing {
+            opacity: 1;
+            color: #0066cc;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .speech-icon:hover {
+            opacity: 1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* 段落播放时高亮 */
+        .p-playing {
+            background-color: #fff9c4;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 拼图游戏样式 */
+        .puzzle-container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 24px;
+            width: 700px;
+            max-width: 90%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 40px;
+            margin: 40px auto;
+        }
+        .puzzle-title {
+            width: 100%;
+            font-size: 24px;
+            font-weight: 700;
+            color: #804000;
+        }
+        .puzzle-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .puzzle-controls p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        .reset-btn {
+            background: #914800;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+        .reset-btn:hover {
+            background: #804000;
+        }
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 120px);
+            grid-template-rows: repeat(3, 120px);
+            gap: 8px;
+        }
+        .tile {
+            width: 120px;
+            height: 120px;
+            background-size: 360px 360px; 
+            background-image: url('images/拼图.jpg'); 
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            box-sizing: border-box;
+        }
+        .tile:hover {
+            transform: scale(1.03);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .reference {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .reference h3 {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+        .reference img {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            object-fit: cover;
+        }
+        .reference p {
+            font-size: 12px;
+            color: #999;
+            margin: 0;
+        }
+        .success-message {
+            display: none;
+            width: 100%;
+            background: #d4edda;
+            color: #155724;
+            text-align: center;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-amber-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-theater-masks text-2xl mr-2"></i>
+                <span class="text-xl font-bold">非遗皮影艺术</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="概述.html" class="nav-link">概述</a>
+                <a href="历史渊源.html" class="nav-link">历史渊源</a>
+                <a href="制作工艺.html" class="nav-link">制作工艺</a>
+                <a href="艺术流派.html" class="nav-link">艺术流派</a>
+                <a href="传承发展.html" class="nav-link">传承发展</a>
+                <a href="视频欣赏.html" class="nav-link">视频欣赏</a>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+			<button id="theme-toggle">切换主题</button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobileMenu" class="hidden md:hidden bg-amber-800 px-4 py-2">
+            <a href="概述.html" class="block py-2 hover:text-amber-200 transition nav-link">概述</a>
+            <a href="历史渊源.html" class="block py-2 hover:text-amber-200 transition nav-link">历史渊源</a>
+            <a href="制作工艺.html" class="block py-2 hover:text-amber-200 transition nav-link">制作工艺</a>
+            <a href="艺术流派.html" class="block py-2 hover:text-amber-200 transition nav-link">艺术流派</a>
+            <a href="传承发展.html" class="block py-2 hover:text-amber-200 transition nav-link">传承发展</a>
+            <a href="视频欣赏.html" class="block py-2 hover:text-amber-200 transition nav-link">视频欣赏</a>
+        </div>
+    </nav>
+
+
+    <!-- 传承发展 -->
+    <section id="heritage" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center text-amber-900">
+                <i class="fas fa-hands-helping mr-2"></i>传承与发展
+            </h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div id="currentSituationContent">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">现状</h3>
+                            <i class="fas fa-volume-up speech-icon" id="currentSituationSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom">
+                            <p>在过去很长时间里，皮影基本都是以表演的形式出现，都是以娱乐为目的。随着社会的进步，人们物质生活水平不断提高，审美水平也在逐步提高，娱乐生活多样。皮影的制作工艺正在从曾经的娱乐为主，欣赏为辅向现如今以欣赏为主，娱乐为辅缓慢过渡。将来的皮影更强调与突出其静态的艺术价值，通过场景的布置，角色的表情，丰富的色彩等，展示着它独特的魅力。</p>
+                        </div>
+                    </div>
+                    
+                    <div id="problemsContent">
+                        <div class="flex items-center">
+                            <h3 class="text-2xl font-semibold mb-4 text-amber-800">面临的问题</h3>
+                            <i class="fas fa-volume-up speech-icon" id="problemsSpeechIcon"></i>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom">
+                            <p>传统的皮影戏在很多方面都存在着不可避免的局限性。这也是它适应如今快节奏社会最大的障碍。皮影精雕细琢，巧夺天工的色彩造型倾倒了无数的艺术家，却给它的制作带来了极高的难度。一个影人的制作要包括制皮，描样，雕镂和上色等十余道工序，这些复杂的工艺足以花去一个手工艺人数星期的时间，还不包括这期间因任何一个小错误而导致无法修改，前功尽弃的可能性。成品的保存也是一个难题，长时间的日晒会使颜料褪色，温度的湿热变化也会造成皮影的变形。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="measuresContent">
+                    <h3 class="text-2xl font-semibold mb-4 text-amber-800">发展措施</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom" id="innovationContent">
+                            <div class="flex items-center">
+                                <h4 class="text-xl font-bold mb-2 text-amber-700">创新表演形式</h4>
+                                <i class="fas fa-volume-up speech-icon" id="innovationSpeechIcon"></i>
+                            </div>
+                            <p>结合现代科技和表演手法，创新皮影戏的表演形式，吸引更多观众。例如，"00后""汪氏皮影"第五代传承人党飞华，让皮影跳起了迈克尔·杰克逊的标志性舞步，演绎出"变形金刚"变身，通过脑洞大开的演绎，让"老皮影"玩出新花样、讲出新故事。</p>
+                        </div>
+                        
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom" id="educationContent">
+                            <div class="flex items-center">
+                                <h4 class="text-xl font-bold mb-2 text-amber-700">加强教育传承</h4>
+                                <i class="fas fa-volume-up speech-icon" id="educationSpeechIcon"></i>
+                            </div>
+                            <p>通过学校教育、社区活动等方式，加强对皮影戏的宣传和推广，培养更多的皮影戏爱好者和传承人。</p>
+                        </div>
+                        
+                        <div class="bg-amber-50 rounded-xl p-6 shadow-custom" id="industryContent">
+                            <div class="flex items-center">
+                                <h4 class="text-xl font-bold mb-2 text-amber-700">推动产业发展</h4>
+                                <i class="fas fa-volume-up speech-icon" id="industrySpeechIcon"></i>
+                            </div>
+                            <p>将皮影戏与旅游、文化创意等产业相结合，推动皮影戏的产业化发展，提高皮影戏的经济价值和社会价值。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8">
+                <img src="images/16999CCB5C281700F799F82E04139DEB.png" alt="各地皮影戏特色展示" style="width: 60%;margin: 0 auto; border-radius: 12px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- 拼图游戏 -->
+    <div class="puzzle-container">
+        <div class="puzzle-title">皮影艺术拼图游戏</div>
+        <div>
+            <div class="puzzle-controls">
+                <p>步数: <span id="steps">0</span></p>
+                <button class="reset-btn" id="reset-btn">重置游戏</button>
+            </div>
+            <div class="puzzle-grid" id="puzzle-grid"></div>
+            <div class="success-message" id="success-message">
+                <i class="fas fa-check-circle mr-2"></i>恭喜你完成了拼图！
+            </div>
+        </div>
+        <div class="reference">
+            <h3>原图参考</h3>
+            <img src="images/拼图.jpg" alt="皮影原图"> 
+            <p>中国传统皮影艺术</p>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-amber-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm">© 2025 非遗皮影艺术保护与传承</p>
+					<video id="backgroundMusic" controls src="music/1.mp3" height="20" width="150" autostart="true" autoplay hidden></video>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-weixin text-xl"></i></a>
+                    <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-weibo text-xl"></i></a>
+                    <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-tiktok text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script>
+	// 获取背景音乐元素
+	const backgroundMusic = document.getElementById('backgroundMusic');
+	
+	// 页面加载时恢复播放状态和音量
+	window.addEventListener('load', function() {
+	    const savedTime = localStorage.getItem('musicTime');
+	    const savedVolume = localStorage.getItem('musicVolume');
+	
+	    if (savedTime) {
+	        backgroundMusic.currentTime = parseFloat(savedTime);
+	    }
+	
+	    if (savedVolume) {
+	        backgroundMusic.volume = parseFloat(savedVolume);
+	    }
+	});
+	
+	// 页面卸载时保存播放状态和当前时间
+	window.addEventListener('beforeunload', function() {
+	    localStorage.setItem('musicTime', backgroundMusic.currentTime);
+	    localStorage.setItem('musicVolume', backgroundMusic.volume);
+	});
+	
+	// 音量控制、暂停与开始功能示例
+	const playPauseButton = document.createElement('button');
+	playPauseButton.textContent = '暂停';
+	playPauseButton.addEventListener('click', function() {
+	    if (backgroundMusic.paused) {
+	        backgroundMusic.play();
+	        playPauseButton.textContent = '暂停';
+	    } else {
+	        backgroundMusic.pause();
+	        playPauseButton.textContent = '播放';
+	    }
+	});
+	
+	const volumeControl = document.createElement('input');
+	volumeControl.type = 'range';
+	volumeControl.min = 0;
+	volumeControl.max = 1;
+	volumeControl.step = 0.1;
+	volumeControl.value = backgroundMusic.volume;
+	volumeControl.addEventListener('input', function() {
+	    backgroundMusic.volume = parseFloat(this.value);
+	});
+	
+	// 将控制按钮添加到页面
+	const footer = document.querySelector('footer');
+	footer.appendChild(playPauseButton);
+	footer.appendChild(volumeControl);
+</script>
+    <script>
+        // 语音播报管理器
+        const SpeechManager = {
+            synth: window.speechSynthesis,
+            currentSection: null,
+            isPaused: false,
+            speechSections: {},
+            
+            init: function() {
+                // 初始化所有语音部分
+                this.speechSections = {
+                    currentSituation: {
+                        icon: document.getElementById('currentSituationSpeechIcon'),
+                        content: document.getElementById('currentSituationContent').querySelector('p').textContent,
+                        position: 0,
+                        utterance: null
+                    },
+                    problems: {
+                        icon: document.getElementById('problemsSpeechIcon'),
+                        content: document.getElementById('problemsContent').querySelector('p').textContent,
+                        position: 0,
+                        utterance: null
+                    },
+                    innovation: {
+                        icon: document.getElementById('innovationSpeechIcon'),
+                        content: document.getElementById('innovationContent').querySelector('p').textContent,
+                        position: 0,
+                        utterance: null
+                    },
+                    education: {
+                        icon: document.getElementById('educationSpeechIcon'),
+                        content: document.getElementById('educationContent').querySelector('p').textContent,
+                        position: 0,
+                        utterance: null
+                    },
+                    industry: {
+                        icon: document.getElementById('industrySpeechIcon'),
+                        content: document.getElementById('industryContent').querySelector('p').textContent,
+                        position: 0,
+                        utterance: null
+                    }
+                };
+
+                // 检查浏览器支持
+                if (!('speechSynthesis' in window)) {
+                    Object.values(this.speechSections).forEach(section => {
+                        if (section.icon) section.icon.style.display = 'none';
+                    });
+                    return;
+                }
+
+                // 为每个语音图标添加点击事件
+                Object.keys(this.speechSections).forEach(key => {
+                    const section = this.speechSections[key];
+                    if (section.icon) {
+                        section.icon.addEventListener('click', () => this.handleSpeechIconClick(key));
+                    }
+                });
+
+                // 监听页面离开事件
+                window.addEventListener('beforeunload', () => this.stopCurrentSpeech());
+                
+                // 监听导航链接点击事件
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => this.stopCurrentSpeech());
+                });
+            },
+            
+            handleSpeechIconClick: function(key) {
+                // 如果点击的是当前正在播放的部分
+                if (this.currentSection === key) {
+                    if (this.synth.speaking && !this.isPaused) {
+                        this.pauseSpeech();
+                    } else if (this.isPaused) {
+                        this.resumeSpeech();
+                    } else {
+                        this.playSpeech(key);
+                    }
+                } else {
+                    // 停止当前播放并开始新的部分
+                    this.stopCurrentSpeech();
+                    this.playSpeech(key);
+                }
+            },
+            
+            playSpeech: function(key) {
+                const section = this.speechSections[key];
+                if (!section || !section.content) return;
+                
+                this.currentSection = key;
+                this.isPaused = false;
+                
+                // 获取要朗读的文本
+                const text = section.content.substring(section.position);
+                
+                // 创建新的语音实例
+                section.utterance = new SpeechSynthesisUtterance(text);
+                section.utterance.lang = 'zh-CN';
+                section.utterance.rate = 0.9;
+                
+                // 语音开始回调
+                section.utterance.onstart = () => {
+                    if (section.icon) {
+                        section.icon.classList.add('playing');
+                        section.icon.classList.remove('fa-play');
+                        section.icon.classList.add('fa-pause');
+                    }
+                    
+                    // 高亮当前播放的内容区域
+                    const contentElement = document.getElementById(key + 'Content');
+                    if (contentElement) contentElement.classList.add('p-playing');
+                };
+                
+                // 语音结束回调
+                section.utterance.onend = () => {
+                    if (section.icon) {
+                        section.icon.classList.remove('playing');
+                        section.position = 0;
+                        section.icon.classList.remove('fa-pause');
+                        section.icon.classList.add('fa-volume-up');
+                    }
+                    
+                    const contentElement = document.getElementById(key + 'Content');
+                    if (contentElement) contentElement.classList.remove('p-playing');
+                    
+                    this.currentSection = null;
+                    this.isPaused = false;
+                };
+                
+                // 语音错误回调
+                section.utterance.onerror = (event) => {
+                    console.error('语音播报错误:', event.error);
+                    if (section.icon) {
+                        section.icon.classList.remove('playing');
+                        section.icon.classList.remove('fa-pause');
+                        section.icon.classList.add('fa-volume-up');
+                    }
+                    
+                    const contentElement = document.getElementById(key + 'Content');
+                    if (contentElement) contentElement.classList.remove('p-playing');
+                    
+                    this.currentSection = null;
+                    this.isPaused = false;
+                };
+                
+                // 记录已播报的字符位置
+                section.utterance.onboundary = (event) => {
+                    if (event.name === 'word') {
+                        section.position = event.charIndex + event.charLength;
+                    }
+                };
+                
+                // 开始播报
+                this.synth.speak(section.utterance);
+            },
+            
+            pauseSpeech: function() {
+                if (this.currentSection && this.synth.speaking && !this.isPaused) {
+                    this.synth.pause();
+                    this.isPaused = true;
+                    const section = this.speechSections[this.currentSection];
+                    if (section.icon) {
+                        section.icon.classList.remove('fa-pause');
+                        section.icon.classList.add('fa-play');
+                    }
+                }
+            },
+            
+            resumeSpeech: function() {
+                if (this.currentSection && this.isPaused) {
+                    this.synth.resume();
+                    this.isPaused = false;
+                    const section = this.speechSections[this.currentSection];
+                    if (section.icon) {
+                        section.icon.classList.remove('fa-play');
+                        section.icon.classList.add('fa-pause');
+                    }
+                }
+            },
+            
+            stopCurrentSpeech: function() {
+                if (this.currentSection) {
+                    const section = this.speechSections[this.currentSection];
+                    this.synth.cancel();
+                    if (section.icon) {
+                        section.icon.classList.remove('playing', 'fa-pause', 'fa-play');
+                        section.icon.classList.add('fa-volume-up');
+                    }
+                    
+                    const contentElement = document.getElementById(this.currentSection + 'Content');
+                    if (contentElement) contentElement.classList.remove('p-playing');
+                    
+                    this.currentSection = null;
+                    this.isPaused = false;
+                }
+            }
+        };
+
+        // 移动端菜单切换
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 初始化语音管理器
+        document.addEventListener('DOMContentLoaded', function() {
+            SpeechManager.init();
+        });
+
+        // 拼图游戏代码
+        const puzzleGrid = document.getElementById('puzzle-grid');
+        const stepsDisplay = document.getElementById('steps');
+        const resetBtn = document.getElementById('reset-btn');
+        const successMessage = document.getElementById('success-message');
+
+        let tiles = [];
+        let selectedTile = null;
+        let steps = 0;
+        let isComplete = false;
+
+        function initGame() {
+            tiles = Array.from({ length: 9 }, (_, i) => i);
+            shuffleTiles();
+            renderTiles();
+            steps = 0;
+            isComplete = false;
+            stepsDisplay.textContent = steps;
+            successMessage.style.display = 'none';
+        }
+
+        function shuffleTiles() {
+            for (let i = tiles.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+            }
+        }
+
+        function renderTiles() {
+            puzzleGrid.innerHTML = '';
+            tiles.forEach((tileIndex, position) => {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                const row = Math.floor(tileIndex / 3);
+                const col = tileIndex % 3;
+                const bgPosX = -col * 120 + 'px';
+                const bgPosY = -row * 120 + 'px';
+                tile.style.backgroundPosition = `${bgPosX} ${bgPosY}`;
+                tile.dataset.position = position;
+                tile.addEventListener('click', handleTileClick);
+                puzzleGrid.appendChild(tile);
+            });
+        }
+
+        function handleTileClick(e) {
+            if (isComplete) return;
+            const clickedPosition = parseInt(e.target.dataset.position);
+            if (selectedTile !== null) {
+                swapTiles(selectedTile, clickedPosition);
+                selectedTile = null;
+                steps++;
+                stepsDisplay.textContent = steps;
+                if (checkCompletion()) {
+                    isComplete = true;
+                    successMessage.style.display = 'block';
+                }
+            } else {
+                selectedTile = clickedPosition;
+                e.target.style.boxShadow = '0 0 0 3px #4b4bff';
+            }
+        }
+
+        function swapTiles(pos1, pos2) {
+            document.querySelector(`[data-position="${pos1}"]`).style.boxShadow = '';
+            [tiles[pos1], tiles[pos2]] = [tiles[pos2], tiles[pos1]];
+            renderTiles();
+        }
+
+        function checkCompletion() {
+            return tiles.every((tile, index) => tile === index);
+        }
+
+        resetBtn.addEventListener('click', initGame);
+        initGame();
+    </script>
+	<script src="theme-toggle.js"></script>
+</body>
+</html>
