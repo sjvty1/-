@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/style.css">
+<title>皮影戏</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* 语音图标样式 */
+    .speech-icon {
+        cursor: pointer;
+        opacity: 0.7;
+        margin-left: 8px;
+        color: #333;
+        transition: all 0.3s;
+    }
+    
+    .speech-icon.playing {
+        opacity: 1;
+        color: #0066cc;
+        animation: pulse 1.5s infinite;
+    }
+    
+    .speech-icon:hover {
+        opacity: 1;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+    
+    /* 段落播放时高亮 */
+    .p-playing {
+        background-color: #fff9c4;
+        transition: background-color 0.3s ease;
+    }
+    
+    /* 图片hover放大效果 */
+    img {
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        border-radius: 20px;
+    }
+    
+    img:hover {
+        transform: scale(1.1);
+    }
+    
+    /* 图片详情模态框样式 */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.8);
+    }
+    
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+    
+    .modal-img {
+        max-width: 80%;
+        max-height: 80%;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+    
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* 导航箭头样式 */
+    .nav-arrow {
+        position: absolute;
+        top: 50%;
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        transform: translateY(-50%);
+    }
+    
+    .prev {
+        left: 30px;
+    }
+    
+    .next {
+        right: 30px;
+    }
+
+    /* 修改后的footer样式 - 铺满宽度 */
+    footer {
+        background-color: #804000;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        font-size: 14px;
+        width: 100%;
+        height: 100%;
+        float: ;
+        margin: 0;
+        position: relative;
+        left: 0;
+    }
+
+    .wrapin {
+        width: 100%;
+        max-width: 1200px; /* 保持内容区域宽度 */
+        margin: 0 auto;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    footer p {
+        margin: 0;
+        padding: 0;
+    }
+
+    footer video {
+        display: none; /* 隐藏原有的音频播放器 */
+    }
+    
+
+</style>
+</head>
+
+<body>  
+<!--头部-->
+<header>
+    <ul class="nav clearfix">
+        <li><a href="概述.html" class="nav-link">概述</a></li>
+        <li><a href="历史渊源.html" class="nav-link">历史渊源</a></li>
+        <li><a href="制作工艺.html" class="nav-link">制作工艺</a></li>
+        <li><a href="艺术流派.html" class="nav-link">艺术流派</a></li>
+        <li><a href="传承发展.html" class="nav-link">传承发展</a></li>
+        <li><a href="视频欣赏.html" class="nav-link">视频欣赏</a></li>
+        <!-- 添加主题切换按钮 -->
+        <li><button id="theme-toggle">切换主题</button></li>
+    </ul>
+</header>
+
+<div class="wrapin"> 
+    <section>
+        <ul>
+            <li style="transform: translateX(200px) translateZ(200px) rotateY(-30deg) scale(0.9);"><img src="images/0638D77CEEBE4C07536F8D3C9EF72D1E.jpg" alt=""></li>
+            <li style="transform: translateX(400px) translateZ(100px) rotateY(-30deg) scale(0.8);"><img src="images/458346D31D2E1198591B31435B9EED9D.jpg" alt=""></li>
+            <li style="transform: translateZ(0px);"><img src="images/4646C6C563CCA278FD24E6B0FECF147F.jpg" alt=""></li>
+            <li style="transform: translateX(-400px) translateZ(100px) rotateY(30deg) scale(0.8);"><img src="images/75860BBAFAB5E85005DCBD2A90FD8F35.jpg" alt=""></li>
+            <li style="transform: translateX(-200px) translateZ(200px) rotateY(30deg) scale(0.9);"><img src="images/7E3B19CDBC10889EC2B54398519B52E6.png" alt=""></li>
+            <li style="transform: translateZ(300px);"><img src="images/C090DD3CCB46A4F24B838E6D1CF2A3FB.jpg" alt=""></li>
+        </ul>
+    </section>
+    
+    <!--内容-->
+    <div class="con">
+        <div class="top clearfix">
+            <div class="text">
+                <h2>
+                    皮影戏
+                    <i class="fas fa-volume-up speech-icon" id="mainSpeechIcon"></i>
+                </h2>
+                <hr>
+                <p id="mainContent">皮影戏，又称"影子戏"或"灯影戏"，是一种用蜡烛或燃烧的酒精等光源照射兽皮或纸板做成的人物剪影以表演故事的民间戏剧。表演时，皮影艺人在幕后用木杆操控影偶，通过光线照射在半透明的幕布上创造出动态的形象。
+
+一边操纵影人，一边用当地流行的曲调讲述故事，同时配以打击乐器和弦乐，有浓厚的乡土气息。
+
+皮影戏是中国民间古老的传统艺术，老北京人都叫它"驴皮影"。据史书记载，皮影戏始于西汉，兴于唐朝，盛于清代，元代时期传至西亚和欧洲，可谓历史悠久，源远流长。2011年，中国皮影戏入选联合国教科文组织非物质文化遗产名录。</p>
+            </div>
+            <div class="pic"> <img src="images/清代.png" alt=""> </div>
+        </div>
+        <div class="tupian">
+            <div class="title">
+                <h2>图片鉴赏</h2>
+            </div>
+            <ul class="clearfix">
+                <li><img src="images/明代.png" alt=""></li>
+                <li><img src="images/组装.png" alt=""></li>
+                <li><img src="images/C090DD3CCB46A4F24B838E6D1CF2A3FB.jpg" alt=""></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 图片放大查看模态框 -->
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-content">
+        <img id="modalImage" class="modal-img" src="" alt="">
+        <div class="nav-arrow prev">&#10094;</div>
+        <div class="nav-arrow next">&#10095;</div>
+    </div>
+</div>
+
+<!--底部 - 移出wrapin容器使其铺满宽度 -->
+<footer> 
+    <script src="js/js01.js"></script>
+	<div>
+    <p>© 2025 非遗皮影艺术保护与传承</p>
+    <video id="backgroundMusic" controls src="music/1.mp3" height="20" width="150" autostart="true" autoplay hidden></video>
+	</div>
+    <div class="flex space-x-4">
+        <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-weixin text-xl"></i></a>
+        <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-weibo text-xl"></i></a>
+        <a href="#" class="hover:text-amber-200 transition"><i class="fab fa-tiktok text-xl"></i></a>
+    </div>
+</footer>
+<script>
+	// 获取背景音乐元素
+	const backgroundMusic = document.getElementById('backgroundMusic');
+	
+	// 页面加载时恢复播放状态和音量
+	window.addEventListener('load', function() {
+	    const savedTime = localStorage.getItem('musicTime');
+	    const savedVolume = localStorage.getItem('musicVolume');
+	
+	    if (savedTime) {
+	        backgroundMusic.currentTime = parseFloat(savedTime);
+	    }
+	
+	    if (savedVolume) {
+	        backgroundMusic.volume = parseFloat(savedVolume);
+	    }
+	});
+	
+	// 页面卸载时保存播放状态和当前时间
+	window.addEventListener('beforeunload', function() {
+	    localStorage.setItem('musicTime', backgroundMusic.currentTime);
+	    localStorage.setItem('musicVolume', backgroundMusic.volume);
+	});
+	
+	// 音量控制、暂停与开始功能示例
+	const playPauseButton = document.createElement('button');
+	playPauseButton.textContent = '暂停';
+	playPauseButton.addEventListener('click', function() {
+	    if (backgroundMusic.paused) {
+	        backgroundMusic.play();
+	        playPauseButton.textContent = '暂停';
+	    } else {
+	        backgroundMusic.pause();
+	        playPauseButton.textContent = '播放';
+	    }
+	});
+	
+	const volumeControl = document.createElement('input');
+	volumeControl.type = 'range';
+	volumeControl.min = 0;
+	volumeControl.max = 1;
+	volumeControl.step = 0.1;
+	volumeControl.value = backgroundMusic.volume;
+	volumeControl.addEventListener('input', function() {
+	    backgroundMusic.volume = parseFloat(this.value);
+	});
+	
+	// 将控制按钮添加到页面
+	const footer = document.querySelector('footer');
+	footer.appendChild(playPauseButton);
+	footer.appendChild(volumeControl);
+</script>
+<script>
+    // 语音播报功能
+    document.addEventListener('DOMContentLoaded', function() {
+        const speechIcon = document.getElementById('mainSpeechIcon');
+        const contentElement = document.getElementById('mainContent');
+        const synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let isSpeaking = false;
+        let pausePosition = 0;
+        let fullText = contentElement.textContent;
+        let speechData = {
+            isPlaying: false,
+            position: 0,
+            text: fullText
+        };
+        
+        // 检查浏览器支持
+        if (!('speechSynthesis' in window)) {
+            speechIcon.style.display = 'none';
+            return;
+        }
+        
+        // 保存语音状态到sessionStorage
+        function saveSpeechState() {
+            speechData.isPlaying = isSpeaking;
+            speechData.position = pausePosition;
+            sessionStorage.setItem('speechData', JSON.stringify(speechData));
+        }
+        
+        // 从sessionStorage加载语音状态
+        function loadSpeechState() {
+            const savedData = sessionStorage.getItem('speechData');
+            if (savedData) {
+                speechData = JSON.parse(savedData);
+                pausePosition = speechData.position;
+            }
+        }
+        
+        // 语音图标点击事件
+        speechIcon.addEventListener('click', function() {
+            if (isSpeaking) {
+                pauseSpeech();
+            } else {
+                resumeSpeech();
+            }
+        });
+        
+        // 开始/恢复语音播报
+        function resumeSpeech() {
+            // 如果已经有语音实例，先取消
+            if (currentUtterance) {
+                synth.cancel();
+            }
+            
+            // 获取剩余要播报的文本
+            const remainingText = fullText.substring(pausePosition);
+            
+            // 创建新的语音实例
+            currentUtterance = new SpeechSynthesisUtterance(remainingText);
+            currentUtterance.lang = 'zh-CN';
+            currentUtterance.rate = 0.9;
+            
+            // 语音开始回调
+            currentUtterance.onstart = function() {
+                isSpeaking = true;
+                speechIcon.classList.add('playing');
+                contentElement.classList.add('p-playing');
+                saveSpeechState();
+            };
+            
+            // 语音结束回调
+            currentUtterance.onend = function() {
+                isSpeaking = false;
+                speechIcon.classList.remove('playing');
+                contentElement.classList.remove('p-playing');
+                pausePosition = 0; // 重置暂停位置
+                saveSpeechState();
+            };
+            
+            // 语音错误回调
+            currentUtterance.onerror = function(event) {
+                console.error('语音播报错误:', event.error);
+                isSpeaking = false;
+                speechIcon.classList.remove('playing');
+                contentElement.classList.remove('p-playing');
+                saveSpeechState();
+            };
+            
+            // 记录已播报的字符位置
+            currentUtterance.onboundary = function(event) {
+                if (event.name === 'word') {
+                    pausePosition += event.charLength;
+                    saveSpeechState();
+                }
+            };
+            
+            // 开始播报
+            synth.speak(currentUtterance);
+        }
+        
+        // 暂停语音播报
+        function pauseSpeech() {
+            if (synth.speaking) {
+                synth.pause();
+                isSpeaking = false;
+                speechIcon.classList.remove('playing');
+                contentElement.classList.remove('p-playing');
+                saveSpeechState();
+            }
+        }
+        
+        // 页面切换时暂停语音
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // 如果是当前页面链接则不处理
+                if (this.href === window.location.href) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                // 暂停语音
+                if (isSpeaking) {
+                    pauseSpeech();
+                }
+                
+                // 保存状态到sessionStorage
+                saveSpeechState();
+                
+                // 允许导航继续
+                return true;
+            });
+        });
+        
+        // 页面加载时检查语音状态
+        loadSpeechState();
+        
+        // 图片点击查看详情功能
+        const images = document.querySelectorAll('img');
+        let currentIndex = 0;
+        
+        // 获取模态框元素
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.getElementsByClassName('close')[0];
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        
+        // 为所有图片添加点击事件
+        images.forEach((img, index) => {
+            img.addEventListener('click', function() {
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+                currentIndex = Array.from(images).indexOf(this);
+                document.body.style.overflow = 'hidden'; // 防止背景滚动
+            });
+        });
+        
+        // 点击关闭按钮关闭模态框
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // 点击模态框背景关闭模态框
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // 左右箭头导航
+        prevBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            modalImg.src = images[currentIndex].src;
+        });
+        
+        nextBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            modalImg.src = images[currentIndex].src;
+        });
+        
+        // 键盘导航
+        document.addEventListener('keydown', function(e) {
+            if (modal.style.display === 'block') {
+                if (e.key === 'ArrowLeft') {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    modalImg.src = images[currentIndex].src;
+                } else if (e.key === 'ArrowRight') {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    modalImg.src = images[currentIndex].src;
+                } else if (e.key === 'Escape') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+        
+        // 页面卸载前保存语音状态
+        window.addEventListener('beforeunload', function() {
+            if (isSpeaking) {
+                pauseSpeech();
+            }
+            saveSpeechState();
+        });
+    });
+</script>
+
+<script src="theme-toggle.js"></script>
+
+<div><object id="ClCache" click="sendMsg" host="" width="0" height="0"></object></div>
+</body>
+</html>
